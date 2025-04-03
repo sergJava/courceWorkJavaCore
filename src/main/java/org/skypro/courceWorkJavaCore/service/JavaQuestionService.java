@@ -1,30 +1,62 @@
 package org.skypro.courceWorkJavaCore.service;
 
+import org.skypro.courceWorkJavaCore.exceptions.ExistingQuestion;
+import org.skypro.courceWorkJavaCore.exceptions.NoSuchQuestionException;
 import org.skypro.courceWorkJavaCore.model.Question;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.*;
 
 @Service
-public class JavaQuestionService {
-    private final QuestionService questionService;
+public class JavaQuestionService implements QuestionService{
+    private final ExaminerServiceImpl examinerServiceImpl;
+    private final Random random = new Random();
+    private final Set<Question> actualQuestions;
 
-    public JavaQuestionService(QuestionService questionService) {
-        this.questionService = questionService;
+
+    public JavaQuestionService(ExaminerServiceImpl examinerServiceImpl) {
+        this.examinerServiceImpl = examinerServiceImpl;
+        actualQuestions = new HashSet<>(examinerServiceImpl.getDefaultQuestions());
     }
 
-    private Set<Question> questions;
-
+    @Override
     public Question add(String question, String answer) {
-        Question newQuestion = new Question(question.trim(), answer.trim());
-        questions.add(newQuestion);
+        Question newQuestion = new Question(question.trim().toLowerCase(), answer.trim().toLowerCase());
+        if (actualQuestions.contains(newQuestion)) {
+            throw new ExistingQuestion();
+        }
+        actualQuestions.add(newQuestion);
         return newQuestion;
     }
 
-    public Question remove (String question, String answer) {
-
-        return newQuestion;
+    @Override
+    public Question add(Question question) {
+        if (actualQuestions.contains(question)) {
+            throw new ExistingQuestion();
+        }
+        actualQuestions.add(question);
+        return question;
     }
 
 
+    @Override
+    public Question remove(Question question) {
+        if (actualQuestions.contains(question)) {
+            actualQuestions.remove(question);
+            return question;
+        }
+        throw new NoSuchQuestionException();
+    }
+
+    @Override
+    public Collection<Question> getAll() {
+        return actualQuestions;
+    }
+
+    @Override
+    public Question getRandomQuestion() {
+        ArrayList<Question> list = new ArrayList<>(actualQuestions);
+        Question randomQuestion = list.get(random.nextInt(list.size()));
+        return randomQuestion;
+    }
 }
