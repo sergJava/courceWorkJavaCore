@@ -1,7 +1,7 @@
 package org.skypro.courceWorkJavaCore.controller;
 
 import org.skypro.courceWorkJavaCore.model.Question;
-import org.skypro.courceWorkJavaCore.service.JavaQuestionService;
+import org.skypro.courceWorkJavaCore.service.QuestionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,29 +12,25 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/exam/java")
 public class JavaQuestionController {
-    private final JavaQuestionService javaQuestionService;
+    private final QuestionService questionService;
 
-    public JavaQuestionController(JavaQuestionService javaQuestionService) {
-        this.javaQuestionService = javaQuestionService;
+    public JavaQuestionController(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @GetMapping("/add")
-    public Question addQuestion(@RequestParam("question") String question
-            , @RequestParam("answer") String answer) {
-        return javaQuestionService.add(question, answer);
+    public Question addQuestion(@RequestParam("question") String question, @RequestParam("answer") String answer) {
+        return questionService.add(question, answer);
     }
 
     @GetMapping("/remove")
-    public Question removeQuestion(@RequestParam("question") String question
-            , @RequestParam("answer") String answer) {
-        Question questionForRemove = new Question(question, answer);
-        javaQuestionService.remove(questionForRemove);
-        return questionForRemove;
+    public Question removeQuestion(@RequestParam("question") String question, @RequestParam("answer") String answer) {
+        return questionService.remove(new Question(question, answer));
     }
 
     @GetMapping
     public Collection<Question> getQuestoins(){
-        return javaQuestionService.getAll();
+        return questionService.getAll();
     }
 
 }

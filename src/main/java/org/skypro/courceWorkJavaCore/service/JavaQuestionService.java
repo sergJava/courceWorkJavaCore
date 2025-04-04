@@ -1,62 +1,60 @@
 package org.skypro.courceWorkJavaCore.service;
 
-import org.skypro.courceWorkJavaCore.exceptions.ExistingQuestion;
-import org.skypro.courceWorkJavaCore.exceptions.NoSuchQuestionException;
 import org.skypro.courceWorkJavaCore.model.Question;
 import org.springframework.stereotype.Service;
+import java.util.Random;
 
 import java.util.*;
 
 @Service
 public class JavaQuestionService implements QuestionService{
-    private final ExaminerServiceImpl examinerServiceImpl;
-    private final Random random = new Random();
-    private final Set<Question> actualQuestions;
+    private final Set<Question> questions = new HashSet<>();
+    private final Random random;
 
-
-    public JavaQuestionService(ExaminerServiceImpl examinerServiceImpl) {
-        this.examinerServiceImpl = examinerServiceImpl;
-        actualQuestions = new HashSet<>(examinerServiceImpl.getDefaultQuestions());
+    public JavaQuestionService(Random random) {
+        this.random = random;
     }
 
     @Override
     public Question add(String question, String answer) {
         Question newQuestion = new Question(question.trim().toLowerCase(), answer.trim().toLowerCase());
-        if (actualQuestions.contains(newQuestion)) {
-            throw new ExistingQuestion();
+        if (questions.contains(newQuestion)) {
+            throw new IllegalArgumentException("такой вопрос уже существует");
         }
-        actualQuestions.add(newQuestion);
+        questions.add(newQuestion);
         return newQuestion;
     }
 
     @Override
     public Question add(Question question) {
-        if (actualQuestions.contains(question)) {
-            throw new ExistingQuestion();
+        if (questions.contains(question)) {
+            throw new IllegalArgumentException("такой вопрос уже существует");
         }
-        actualQuestions.add(question);
+        questions.add(question);
         return question;
     }
 
 
     @Override
     public Question remove(Question question) {
-        if (actualQuestions.contains(question)) {
-            actualQuestions.remove(question);
-            return question;
+        if (!questions.contains(question)) {
+            throw new IllegalArgumentException("такого вопроса нет в списке");
         }
-        throw new NoSuchQuestionException();
+        questions.remove(question);
+        return question;
     }
 
     @Override
     public Collection<Question> getAll() {
-        return actualQuestions;
+        return Collections.unmodifiableSet(questions);
     }
 
     @Override
     public Question getRandomQuestion() {
-        ArrayList<Question> list = new ArrayList<>(actualQuestions);
-        Question randomQuestion = list.get(random.nextInt(list.size()));
-        return randomQuestion;
+        if (questions.isEmpty()) {
+            throw new IllegalStateException("нет доступных вопросов");
+        }
+        int index = random.nextInt(questions.size());
+        return new ArrayList<>(questions).get(index);
     }
 }

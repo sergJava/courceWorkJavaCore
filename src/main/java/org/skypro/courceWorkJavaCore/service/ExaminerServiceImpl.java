@@ -1,6 +1,5 @@
 package org.skypro.courceWorkJavaCore.service;
 
-import org.skypro.courceWorkJavaCore.exceptions.MoreQuestionsRequested;
 import org.skypro.courceWorkJavaCore.model.Question;
 import org.springframework.stereotype.Service;
 
@@ -9,31 +8,25 @@ import java.util.stream.Collectors;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
-    Set<Question> defaultQuestions;
+    private final QuestionService questionService;
 
-    public ExaminerServiceImpl() {
-        this.defaultQuestions = new HashSet<>();
-        initializeDefaultQuestions();
+    public ExaminerServiceImpl(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        if (amount > defaultQuestions.size()) {
-            throw new MoreQuestionsRequested();
+        if (amount <= 0) {
+            throw new IllegalArgumentException("количество вопросов должно быть больше нуля");
         }
-        return defaultQuestions
-                .stream()
-                .limit(amount)
-                .collect(Collectors.toSet());
-    }
+        if (amount > questionService.getAll().size()) {
+            throw new IllegalArgumentException("задайте меньшее количество вопросов");
+        }
 
-    public void initializeDefaultQuestions() {
-        defaultQuestions.add(new Question("лучший язык программирования", "java"));
-        defaultQuestions.add(new Question("лучшая онлайн школа", "skypro"));
-        defaultQuestions.add(new Question("лучший фреймворк", "spring boot"));
-    }
-
-    public Collection<Question> getDefaultQuestions(){
-        return Collections.unmodifiableSet(defaultQuestions);
+        Set<Question> unickSet = new HashSet<>();
+        while (unickSet.size() < amount) {
+            unickSet.add(questionService.getRandomQuestion());
+        }
+        return unickSet;
     }
 }
