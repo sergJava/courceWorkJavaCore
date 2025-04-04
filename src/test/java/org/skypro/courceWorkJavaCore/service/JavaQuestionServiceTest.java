@@ -1,7 +1,6 @@
 package org.skypro.courceWorkJavaCore.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,9 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skypro.courceWorkJavaCore.model.Question;
 
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.regex.Matcher;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 

@@ -21,7 +21,7 @@ public class ExaminerServiceImplTest {
     ExaminerServiceImpl examinerService;
 
     @Test
-    void getQuestionsTest(){
+    void getQuestionsTest() {
         Question question1 = new Question("q1", "a1");
         Question question2 = new Question("q2", "a2");
         Question question3 = new Question("q3", "a3");
@@ -41,21 +41,14 @@ public class ExaminerServiceImplTest {
         Assertions.assertTrue(expectedSet.containsAll(actualSet));
     }
 
-//    @Test
-//    void testWithBigAmount() {
-//        Set<Question> mockSet = new HashSet<>();
-//
-//        Mockito.when(questionService.getAll()).thenReturn(new HashSet<>(2));
-//        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class
-//                , () -> examinerService.getQuestions(5));
-//        Assertions.assertEquals("задайте меньшее количество вопросов", exception.getMessage());
+    @Test
+    void testWithBigAmount() {
+        Set<Question> mockSet = Set.of(new Question("q1", "a1")
+                , new Question("q2", "a2"));
 
-
-//        Question question1 = new Question("q1", "a1");
-//        javaQuestionService.add(question1);
-//
-//        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class
-//                , () -> javaQuestionService.add(question1));
-//        Assertions.assertEquals("такой вопрос уже существует", exception.getMessage());
-//    }
+        Mockito.when(questionService.getAll()).thenReturn(mockSet);
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class
+                , () -> examinerService.getQuestions(5));
+        Assertions.assertEquals("задайте меньшее количество вопросов", exception.getMessage());
+    }
 }
