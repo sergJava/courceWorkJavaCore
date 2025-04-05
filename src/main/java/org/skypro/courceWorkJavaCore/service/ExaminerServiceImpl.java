@@ -4,7 +4,6 @@ import org.skypro.courceWorkJavaCore.model.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {

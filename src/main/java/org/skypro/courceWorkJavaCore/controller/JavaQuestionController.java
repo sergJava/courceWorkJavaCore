@@ -29,8 +29,7 @@ public class JavaQuestionController {
     }
 
     @GetMapping
-    public Collection<Question> getQuestoins(){
+    public Collection<Question> getQuestoins() {
         return questionService.getAll();
     }
-
 }

@@ -2,12 +2,13 @@ package org.skypro.courceWorkJavaCore.service;
 
 import org.skypro.courceWorkJavaCore.model.Question;
 import org.springframework.stereotype.Service;
+
 import java.util.Random;
 
 import java.util.*;
 
 @Service
-public class JavaQuestionService implements QuestionService{
+public class JavaQuestionService implements QuestionService {
     private final Set<Question> questions = new HashSet<>();
     private final Random random;
 
