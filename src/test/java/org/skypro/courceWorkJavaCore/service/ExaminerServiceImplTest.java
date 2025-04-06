@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.skypro.courceWorkJavaCore.model.Question;
+import org.skypro.courceWorkJavaCore.service.impl.ExaminerServiceImpl;
 
 import java.util.HashSet;
 import java.util.Set;

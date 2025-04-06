@@ -1,8 +1,7 @@
 package org.skypro.courceWorkJavaCore.controller;
 
 import org.skypro.courceWorkJavaCore.model.Question;
-import org.skypro.courceWorkJavaCore.service.QuestionService;
-import org.skypro.courceWorkJavaCore.service.impl.JavaQuestionService;
+import org.skypro.courceWorkJavaCore.service.impl.MathQuestionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam/java")
-public class JavaQuestionController {
-    private final JavaQuestionService questionService;
+@RequestMapping("/exam/math")
+public class MathQuestionController {
+    private final MathQuestionService questionService;
 
-    public JavaQuestionController(JavaQuestionService questionService) {
+    public MathQuestionController(MathQuestionService questionService) {
         this.questionService = questionService;
     }
 
