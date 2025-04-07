@@ -12,12 +12,12 @@ import java.util.*;
 @Service
 public class MathQuestionService implements QuestionService {
     private final QuestionRepository repository;
-    private final Random random;
+    private final Random random = new Random();
 
     @Autowired
     public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository repository, Random random) {
         this.repository = repository;
-        this.random = random;
+//        this.random = random;
     }
 
     @Override

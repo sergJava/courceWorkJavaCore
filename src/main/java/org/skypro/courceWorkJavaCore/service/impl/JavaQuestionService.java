@@ -14,12 +14,12 @@ import java.util.*;
 @Service
 public class JavaQuestionService implements QuestionService {
     private final QuestionRepository repository;
-    private final Random random;
+    private final Random random = new Random();
 
     @Autowired
-    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository repository, Random random) {
+    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository repository) {
         this.repository = repository;
-        this.random = random;
+//        this.random = random;
     }
 
     @Override
